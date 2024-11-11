@@ -14,10 +14,13 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
 
-        StartCoroutine(SpawnAstroids());
 
     }
 
+    public void StartGame()
+    {
+        StartCoroutine(SpawnAstroids());
+    }
 
 
 
@@ -25,6 +28,7 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
+
             yield return new WaitForSeconds(spawnRate);
 
             GameObject bullet = ObjectPooling.Instance.GetPooledObject();

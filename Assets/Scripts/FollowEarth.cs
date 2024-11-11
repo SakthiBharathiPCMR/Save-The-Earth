@@ -17,12 +17,6 @@ public class FollowEarth : MonoBehaviour
     public Image healthUI;
 
 
-    // Use this for initialization
-    void Start()
-    {
-        StartAstroid();
-    }
-
     public void StartAstroid()
     {
         currentHealth = health;
@@ -32,11 +26,7 @@ public class FollowEarth : MonoBehaviour
         StartCoroutine(MoveToEarth(index));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
 
     private void OnMouseDown()
     {

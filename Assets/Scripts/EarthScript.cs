@@ -16,7 +16,7 @@ public class EarthScript : MonoBehaviour
     private int currentHealth ;
 
     // Use this for initialization
-    void Start()
+    void StartGame()
     {
         currentHealth = health;
 
@@ -29,6 +29,7 @@ public class EarthScript : MonoBehaviour
         .SetEase(Ease.Linear);
 
     }
+
 
 
     private void OnTriggerEnter2D(Collider2D other)
