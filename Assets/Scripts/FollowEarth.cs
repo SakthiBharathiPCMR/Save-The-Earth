@@ -8,7 +8,7 @@ using DG.Tweening;
 public class FollowEarth : MonoBehaviour
 {
     private int currentHealth;
-    private float minTime = 5f;
+    private float minTime = 8f;
     private float maxTime = 10f;
 
 
@@ -19,6 +19,11 @@ public class FollowEarth : MonoBehaviour
 
     // Use this for initialization
     void Start()
+    {
+        StartAstroid();
+    }
+
+    public void StartAstroid()
     {
         currentHealth = health;
         HealthUI();

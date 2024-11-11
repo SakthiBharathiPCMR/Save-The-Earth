@@ -44,9 +44,9 @@ public class ObjectPooling : MonoBehaviour
 
     public GameObject GetPooledObject()
     {
-        for (int i = 0; i < amountToPool; i++)
+        for (int i = 0; i < pooledObjects.Count; i++)
         {
-            int index = Random.Range(0, amountToPool);
+            int index = Random.Range(0, pooledObjects.Count);
             if (!pooledObjects[index].activeInHierarchy)
             {
                 return pooledObjects[index];

@@ -12,9 +12,14 @@ public class EarthScript : MonoBehaviour
     public float scaleTime = 2f;
     public float scaleAmount = 0.8f;
 
+    private int health = 10;
+    private int currentHealth ;
+
     // Use this for initialization
     void Start()
     {
+        currentHealth = health;
+
         transform.DORotate(Vector3.forward * rotateDegree, rotateTime, RotateMode.FastBeyond360)
         .SetLoops(-1, LoopType.Restart)
         .SetEase(Ease.Linear);
@@ -23,6 +28,21 @@ public class EarthScript : MonoBehaviour
         .SetLoops(-1, LoopType.Yoyo)
         .SetEase(Ease.Linear);
 
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Damage();
+        if(currentHealth<=0)
+        {
+            Debug.Log("GameOver");
+        }
+    }
+
+    private void Damage()
+    {
+        currentHealth--;
     }
 
  
