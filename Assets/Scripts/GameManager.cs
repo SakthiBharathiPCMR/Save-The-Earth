@@ -128,7 +128,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator DelayGameOver()
     {
         yield return new WaitForSeconds(.5f);
-
+        transitionScript.StartTransition();
+        yield return new WaitForSeconds(.7f);
         restartButton.gameObject.SetActive(true);
         scoreText.transform.parent.gameObject.SetActive(false);
         earthScript.gameObject.SetActive(false);
