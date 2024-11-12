@@ -28,9 +28,11 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
-            if (GameManager.Instance.isGameActive)
+            if (!GameManager.Instance.isGameActive)
             {
-
+                StopAllCoroutines();
+                
+            }
                 yield return new WaitForSeconds(spawnRate);
 
                 GameObject bullet = ObjectPooling.Instance.GetPooledObject();
@@ -44,7 +46,7 @@ public class SpawnManager : MonoBehaviour
                     FollowEarth followEarth = bullet.GetComponent<FollowEarth>();
                     followEarth.StartAstroid();
                 }
-            }
+            
         }
     }
 

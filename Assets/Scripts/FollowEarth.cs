@@ -10,6 +10,7 @@ public class FollowEarth : MonoBehaviour
     private int currentHealth;
     private float minTime = 8f;
     private float maxTime = 10f;
+    private Vector3 startScale;
 
 
 
@@ -17,13 +18,16 @@ public class FollowEarth : MonoBehaviour
     public Image healthUI;
 
     private bool isAlive;
+    private bool isClickable;
 
 
     public void StartAstroid()
     {
+        startScale = transform.localScale;
         currentHealth = health;
         HealthUI();
         isAlive = true;
+        isClickable = true;
 
         float index = Random.Range(minTime, maxTime);
         StartCoroutine(MoveToEarth(index));
@@ -33,8 +37,10 @@ public class FollowEarth : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!isAlive) return;
+        if (!isAlive || !isClickable) return;
         damegeHealth();
+        isClickable = false;
+        StartCoroutine(BlockInput());
         if (currentHealth <= 0)
         {
             StopAllCoroutines();
@@ -47,9 +53,18 @@ public class FollowEarth : MonoBehaviour
 
     }
 
+    private IEnumerator BlockInput()
+    {
+        yield return new WaitForSeconds(.2f);
+        isClickable = true;
+    }
+
+
+
     private void DelayTurnOff()
     {
         gameObject.SetActive(false);
+        transform.localScale = startScale;
     }
 
     private void Shake()
@@ -76,12 +91,16 @@ public class FollowEarth : MonoBehaviour
 
         while (elapsedTime < totalTime)
         {
-            if (GameManager.Instance.isGameActive)
+            if (!GameManager.Instance.isGameActive)
             {
-                transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / totalTime);
-                elapsedTime += Time.deltaTime;
-                yield return null;
+                StopAllCoroutines();
+                gameObject.SetActive(false);
+
             }
+            transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / totalTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+
         }
 
         transform.position = endPos;

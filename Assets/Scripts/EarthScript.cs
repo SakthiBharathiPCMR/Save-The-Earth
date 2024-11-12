@@ -38,6 +38,7 @@ public class EarthScript : MonoBehaviour
         if(currentHealth<=0)
         {
             Debug.Log("GameOver");
+            GameManager.Instance.GameOver();
         }
     }
 

@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
     public Button restartButton;
     public Button musicButton;
     public Text scoreText;
-    private int score = 0;
+    public Text finalScoreText;
+    private int score;
 
     private void Awake()
     {
@@ -36,12 +37,14 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         playButton.onClick.AddListener(StartGame);
+        restartButton.onClick.AddListener(StartGame);
     }
 
 
     private void StartGame()
     {
         //ScoreUI();
+        score = 0;
         playButton.gameObject.SetActive(false);
         musicButton.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
@@ -73,13 +76,20 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + score;
     }
 
+    private void FinalScore()
+    {
+        finalScoreText.text = "Your Score: " + score;
+    }
+
 
     public void GameOver()
     {
         isGameActive = false;
+        FinalScore();
         restartButton.gameObject.SetActive(true);
+        scoreText.transform.parent.gameObject.SetActive(false);
         earthScript.gameObject.SetActive(false);
-        
+
     }
 
 
