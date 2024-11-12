@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,14 @@ public class GameManager : MonoBehaviour
     public bool isGameActive;
     public EarthScript earthScript;
     public SpawnManager spawnManager;
+    public AudioSource audioSource;
+    public AudioClip[] audioClips;
+
+    public Button playButton;
+    public Button restartButton;
+    public Button musicButton;
+    public Text scoreText;
+    private int score = 0;
 
     private void Awake()
     {
@@ -23,4 +32,55 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
     }
+
+    private void Start()
+    {
+        playButton.onClick.AddListener(StartGame);
+    }
+
+
+    private void StartGame()
+    {
+        //ScoreUI();
+        playButton.gameObject.SetActive(false);
+        musicButton.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
+
+        StartCoroutine(StartDelay());
+
+    }
+
+
+    private IEnumerator StartDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        isGameActive = true;
+        spawnManager.StartGame();
+        earthScript.StartGame();
+        scoreText.transform.parent.gameObject.SetActive(true);
+        earthScript.gameObject.SetActive(true);
+    }
+
+    public void UpdateScore()
+    {
+        score++;
+        ScoreUI();
+    }
+
+    private void ScoreUI()
+    {
+        scoreText.text = "Score: " + score;
+    }
+
+
+    public void GameOver()
+    {
+        isGameActive = false;
+        restartButton.gameObject.SetActive(true);
+        earthScript.gameObject.SetActive(false);
+        
+    }
+
+
 }

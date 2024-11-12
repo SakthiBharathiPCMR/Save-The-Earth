@@ -16,11 +16,14 @@ public class FollowEarth : MonoBehaviour
     public int health = 3;
     public Image healthUI;
 
+    private bool isAlive;
+
 
     public void StartAstroid()
     {
         currentHealth = health;
         HealthUI();
+        isAlive = true;
 
         float index = Random.Range(minTime, maxTime);
         StartCoroutine(MoveToEarth(index));
@@ -30,10 +33,13 @@ public class FollowEarth : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (!isAlive) return;
         damegeHealth();
         if (currentHealth <= 0)
         {
             StopAllCoroutines();
+            isAlive = false;
+            GameManager.Instance.UpdateScore();
             Invoke("DelayTurnOff", .2f);
         }
         Shake();
@@ -70,9 +76,12 @@ public class FollowEarth : MonoBehaviour
 
         while (elapsedTime < totalTime)
         {
-            transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / totalTime);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            if (GameManager.Instance.isGameActive)
+            {
+                transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / totalTime);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
         }
 
         transform.position = endPos;

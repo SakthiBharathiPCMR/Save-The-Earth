@@ -16,7 +16,7 @@ public class EarthScript : MonoBehaviour
     private int currentHealth ;
 
     // Use this for initialization
-    void StartGame()
+    public void StartGame()
     {
         currentHealth = health;
 
@@ -24,9 +24,9 @@ public class EarthScript : MonoBehaviour
         .SetLoops(-1, LoopType.Restart)
         .SetEase(Ease.Linear);
 
-        transform.DOScale((Vector2.one * scaleAmount), scaleTime)
+       /* transform.DOScale((Vector2.one * scaleAmount), scaleTime)
         .SetLoops(-1, LoopType.Yoyo)
-        .SetEase(Ease.Linear);
+        .SetEase(Ease.Linear);*/
 
     }
 

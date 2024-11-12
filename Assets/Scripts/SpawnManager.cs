@@ -28,19 +28,22 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
-
-            yield return new WaitForSeconds(spawnRate);
-
-            GameObject bullet = ObjectPooling.Instance.GetPooledObject();
-            if (bullet != null)
+            if (GameManager.Instance.isGameActive)
             {
-                Vector2 randomDirection = GetRandomPositionOnCircle(Vector2.one, radius);
 
-                bullet.transform.position = randomDirection;
-                bullet.transform.rotation = Quaternion.identity;
-                bullet.SetActive(true);
-                FollowEarth followEarth = bullet.GetComponent<FollowEarth>();
-                followEarth.StartAstroid();
+                yield return new WaitForSeconds(spawnRate);
+
+                GameObject bullet = ObjectPooling.Instance.GetPooledObject();
+                if (bullet != null)
+                {
+                    Vector2 randomDirection = GetRandomPositionOnCircle(Vector2.one, radius);
+
+                    bullet.transform.position = randomDirection;
+                    bullet.transform.rotation = Quaternion.identity;
+                    bullet.SetActive(true);
+                    FollowEarth followEarth = bullet.GetComponent<FollowEarth>();
+                    followEarth.StartAstroid();
+                }
             }
         }
     }
