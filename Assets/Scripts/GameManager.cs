@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public SpawnManager spawnManager;
     public AudioSource audioSource;
     public AudioClip[] audioClips;
+    public Transition transitionScript;
 
     public Button playButton;
     public Button restartButton;
@@ -44,26 +45,30 @@ public class GameManager : MonoBehaviour
     private void StartGame()
     {
         //ScoreUI();
-        score = 0;
-        playButton.gameObject.SetActive(false);
-        musicButton.gameObject.SetActive(false);
-        restartButton.gameObject.SetActive(false);
+       
 
         StartCoroutine(StartDelay());
 
     }
 
-
     private IEnumerator StartDelay()
     {
-        yield return new WaitForSeconds(0.5f);
+        transitionScript.StartTransition();
+
+        yield return new WaitForSeconds(.7f);
+        score = 0;
+        playButton.gameObject.SetActive(false);
+        musicButton.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
 
         isGameActive = true;
         spawnManager.StartGame();
         earthScript.StartGame();
         scoreText.transform.parent.gameObject.SetActive(true);
         earthScript.gameObject.SetActive(true);
+
     }
+
 
     public void UpdateScore()
     {
