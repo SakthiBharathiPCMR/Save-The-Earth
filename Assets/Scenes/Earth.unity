@@ -2184,6 +2184,7 @@ MonoBehaviour:
   scaleAmount: 0.9
   audioSource: {fileID: 1969686831}
   healthUI: {fileID: 997986829}
+  healthBar: {fileID: 1469328571}
 --- !u!82 &1969686831
 AudioSource:
   m_ObjectHideFlags: 0
