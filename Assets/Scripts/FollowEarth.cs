@@ -12,6 +12,8 @@ public class FollowEarth : MonoBehaviour
     private float maxTime = 10f;
     private Vector3 startScale;
 
+    private Transform healthBar;
+
 
 
     public int health = 3;
@@ -20,6 +22,22 @@ public class FollowEarth : MonoBehaviour
     private bool isAlive;
     private bool isClickable;
 
+    public ParticleSystem explosionEffect;
+
+    private SpriteRenderer spriteRenderer;
+
+    private void Start()
+    {
+        healthBar = transform.GetChild(0).transform;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+
+    private void ToogleComponent(bool isActive)
+    {
+        healthBar.gameObject.SetActive(isActive);
+        spriteRenderer.enabled = isActive;
+    }
 
     public void StartAstroid()
     {
@@ -39,6 +57,7 @@ public class FollowEarth : MonoBehaviour
     {
         if (!isAlive || !isClickable) return;
         damegeHealth();
+        GameManager.Instance.PlayInDamage();
         isClickable = false;
         StartCoroutine(BlockInput());
         if (currentHealth <= 0)
@@ -63,7 +82,10 @@ public class FollowEarth : MonoBehaviour
 
     private void DelayTurnOff()
     {
-        gameObject.SetActive(false);
+        explosionEffect.Play();
+        ToogleComponent(false);
+        StartCoroutine(DelayAstroidTurnOff());
+        GameManager.Instance.PlayInExplosion();
         transform.localScale = startScale;
     }
 
@@ -108,7 +130,20 @@ public class FollowEarth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!isAlive) return;
+        ToogleComponent(false);
+        GameManager.Instance.PlayInExplosion();
+        explosionEffect.Play();
+        StartCoroutine(DelayAstroidTurnOff());
+    }
+
+
+    private IEnumerator DelayAstroidTurnOff()
+    {
+        yield return new WaitForSeconds(1f);
+        ToogleComponent(true);
         gameObject.SetActive(false);
+
     }
 
 

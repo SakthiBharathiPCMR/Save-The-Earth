@@ -15,12 +15,15 @@ public class GameManager : MonoBehaviour
     public AudioClip[] audioClips;
     public Transition transitionScript;
 
+
     public Button playButton;
     public Button restartButton;
     public Button musicButton;
     public Text scoreText;
     public Text finalScoreText;
     private int score;
+
+    private bool hasMusic = true;
 
     private void Awake()
     {
@@ -39,14 +42,41 @@ public class GameManager : MonoBehaviour
     {
         playButton.onClick.AddListener(StartGame);
         restartButton.onClick.AddListener(StartGame);
+        musicButton.onClick.AddListener(MusicToggle);
     }
 
+    private void MusicToggle()
+    {
+        if (audioSource.isActiveAndEnabled)
+            PlayInButtonClick();
+
+        hasMusic = !hasMusic;
+        audioSource.enabled = hasMusic;
+        spawnManager.ToggleMusic(hasMusic);
+        earthScript.ToggleAudio(hasMusic);
+    }
+
+
+    private void PlayInButtonClick()
+    {
+        audioSource.PlayOneShot(audioClips[0], 1f);
+    }
+
+    public void PlayInExplosion()
+    {
+        audioSource.PlayOneShot(audioClips[1], 0.5f);
+    }
+
+    public void PlayInDamage()
+    {
+        audioSource.PlayOneShot(audioClips[2], 0.5f);
+    }
 
     private void StartGame()
     {
         //ScoreUI();
-       
 
+        PlayInButtonClick();
         StartCoroutine(StartDelay());
 
     }
@@ -62,10 +92,10 @@ public class GameManager : MonoBehaviour
         restartButton.gameObject.SetActive(false);
 
         isGameActive = true;
-        spawnManager.StartGame();
-        earthScript.StartGame();
         scoreText.transform.parent.gameObject.SetActive(true);
         earthScript.gameObject.SetActive(true);
+        spawnManager.StartGame();
+        earthScript.StartGame();
 
     }
 
@@ -91,10 +121,17 @@ public class GameManager : MonoBehaviour
     {
         isGameActive = false;
         FinalScore();
+
+        StartCoroutine(DelayGameOver());
+    }
+
+    private IEnumerator DelayGameOver()
+    {
+        yield return new WaitForSeconds(.5f);
+
         restartButton.gameObject.SetActive(true);
         scoreText.transform.parent.gameObject.SetActive(false);
         earthScript.gameObject.SetActive(false);
-
     }
 
 

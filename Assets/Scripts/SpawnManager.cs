@@ -10,10 +10,12 @@ public class SpawnManager : MonoBehaviour
     private float spawnRate = 1.5f;
     private float radius = 12f;
 
+    public AudioSource audioSource;
+
     // Use this for initialization
     void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -22,6 +24,11 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnAstroids());
     }
 
+
+    public void ToggleMusic(bool isActive)
+    {
+        audioSource.enabled = isActive;
+    }
 
 
     private IEnumerator SpawnAstroids()
