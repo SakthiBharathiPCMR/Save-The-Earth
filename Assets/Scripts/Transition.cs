@@ -8,13 +8,8 @@ public class Transition : MonoBehaviour
 
 
     public Transform endTransform;
-    private Vector3 startPos;
-    // Use this for initialization
-    void Start()
-    {
-        startPos = transform.position;
-    }
-
+    public Transform startTransform;
+ 
 
 
     public void StartTransition()
@@ -27,6 +22,6 @@ public class Transition : MonoBehaviour
     private IEnumerator ResetPosition()
     {
         yield return new WaitForSeconds(3f);
-        transform.position = startPos;
+        transform.position = startTransform.position;
     }
 }
