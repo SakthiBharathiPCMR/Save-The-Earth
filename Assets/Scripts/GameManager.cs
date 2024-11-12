@@ -74,7 +74,6 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        //ScoreUI();
 
         PlayInButtonClick();
         StartCoroutine(StartDelay());
@@ -87,6 +86,8 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(.7f);
         score = 0;
+        ScoreUI();
+        
         playButton.gameObject.SetActive(false);
         musicButton.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);

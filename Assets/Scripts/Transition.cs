@@ -21,7 +21,7 @@ public class Transition : MonoBehaviour
 
     private IEnumerator ResetPosition()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         transform.position = startTransform.position;
     }
 }
